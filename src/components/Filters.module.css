@@ -1,0 +1,6 @@
+.box { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+.box legend { padding: 0 6px; font-weight: 600; }
+.box label { display: flex; flex-direction: column; gap: 2px; font-size: .9rem; }
+.box input { padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); width: 150px; }
+.box button { padding: 7px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--soft); cursor: pointer; }
+.error { color: var(--warn); margin: 0; width: 100%; }

@@ -1,0 +1,11 @@
+.row { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.amount { display: flex; flex-direction: column; gap: 4px; font-weight: 500; width: 160px; }
+.amount input { padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
+.amount input[aria-invalid='true'] { border-color: var(--warn); }
+.swap { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: var(--soft); cursor: pointer; font-size: 1.2rem; }
+.swap:hover { background: var(--accent); color: var(--accent-ink); }
+.error { color: var(--warn); margin: 8px 0 0; }
+.result { margin-top: 18px; min-height: 64px; }
+.big { font-size: 1.4rem; margin: 0; }
+.big strong { color: var(--accent); }
+.meta { color: var(--muted); margin: 4px 0 0; }

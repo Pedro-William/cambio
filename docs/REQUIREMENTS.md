@@ -7,7 +7,7 @@ Pessoas que viajam, compram no exterior ou acompanham o câmbio precisam convert
 Usuários gerais que querem consultar cotações; estudantes que analisam séries históricas.
 
 ## Objetivo
-Oferecer conversão de moedas e análise histórica (gráfico, tabela, CSV) em uma SPA React sem back-end próprio.
+Oferecer conversão de moedas e análise histórica (gráfico, tabela, CSV) em uma SPA em React.
 
 ## Escopo
 Dentro: conversor, histórico/gráfico, tabela com filtros e ordenação, exportação CSV.

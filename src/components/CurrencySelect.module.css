@@ -1,0 +1,2 @@
+.field { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 160px; font-weight: 500; }
+.field select { padding: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--paper); }
