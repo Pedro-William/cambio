@@ -1,0 +1,155 @@
+{
+  "info": {
+    "name": "Frankfurter v2 - Câmbio",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.frankfurter.dev/v2"
+    }
+  ],
+  "item": [
+    {
+      "name": "Moedas disponíveis",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/currencies",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "currencies"
+          ]
+        }
+      }
+    },
+    {
+      "name": "EUR → USD",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));",
+              "pm.test('tem taxa numérica', () => { const j = pm.response.json(); pm.expect(j.rate).to.be.a('number'); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rate/EUR/USD",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rate",
+            "EUR",
+            "USD"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Histórico maio/2024",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));",
+              "pm.test('retorna dados', () => pm.expect(pm.response.json()).to.not.be.empty);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rates?from=2024-05-01&to=2024-05-31&base=EUR&quotes=USD",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rates"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Moeda inválida (erro esperado)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status 4xx', () => pm.expect(pm.response.code).to.be.within(400,499));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rate/EUR/XXX",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rate",
+            "EUR",
+            "XXX"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Histórico agrupado por semana",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('status 200', () => pm.response.to.have.status(200));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rates?from=2020-01-01&to=2024-12-31&base=EUR&quotes=USD&group=week",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rates"
+          ]
+        }
+      }
+    }
+  ]
+}
