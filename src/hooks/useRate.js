@@ -10,7 +10,7 @@ export function useRate(from, to) {
     if (!from || !to) return
     if (from === to) { setData({ date: null, base: from, quote: to, rate: 1 }); setError(''); return }
     let active = true
-    setLoading(true); setError('')
+    setLoading(true); setError(''); setData('')
     getRate(from, to)
       .then((r) => active && setData(r))
       .catch((e) => active && setError(e.message))
