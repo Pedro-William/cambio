@@ -30,8 +30,3 @@ src/
 ```
 O par de moedas é um *lifting state up* em `App.jsx`, compartilhado entre conversor e histórico.
 
-## Documentação
-`docs/REQUIREMENTS.md`, `docs/COMPONENTS.md`, `docs/FIGMA.md`, `docs/API_TESTS.md`, `docs/FUNCTION_TESTS.md`, `docs/AI_USAGE.md`, `postman/Frankfurter.postman_collection.json`.
-
-## Imagens
-Adicione prints em `src/assets/` e referencie aqui após rodar o projeto.
