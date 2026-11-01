@@ -22,3 +22,9 @@ export function formatDateBR(iso) {
   const [y, m, d] = iso.split('-')
   return `${d}/${m}/${y}`
 }
+
+/** Formata uma data ISO (AAAA-MM-DD) conforme o idioma, sem deslocar por fuso horário. */
+export function formatDate(iso, locale = 'pt-BR') {
+  if (!iso) return ''
+  return new Intl.DateTimeFormat(locale, { timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`))
+}
