@@ -17,12 +17,6 @@ export function getPeriodRange(period, today = new Date()) {
   return { from: toISODate(subtractFromDate(today, period)), to: toISODate(today) }
 }
 
-export function formatDateBR(iso) {
-  if (!iso) return ''
-  const [y, m, d] = iso.split('-')
-  return `${d}/${m}/${y}`
-}
-
 /** Formata uma data ISO (AAAA-MM-DD) conforme o idioma, sem deslocar por fuso horário. */
 export function formatDate(iso, locale = 'pt-BR') {
   if (!iso) return ''

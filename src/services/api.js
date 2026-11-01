@@ -1,8 +1,9 @@
 import { API_BASE } from '../constants/periods'
 
 async function fetchJson(url) {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`Falha na API (${res.status}). Tente novamente.`)
+  let res
+  try { res = await fetch(url) } catch { throw new Error('errors.api') }
+  if (!res.ok) throw new Error('errors.api')
   return res.json()
 }
 
@@ -17,7 +18,7 @@ export async function getCurrencies() {
 export async function getRate(from, to) {
   const data = await fetchJson(`${API_BASE}/rate/${from}/${to}`)
   const rate = data.rate ?? data.rates?.[to]
-  if (typeof rate !== 'number') throw new Error('Resposta inesperada da API.')
+  if (typeof rate !== 'number') throw new Error('errors.unexpected')
   return { date: data.date, base: from, quote: to, rate }
 }
 

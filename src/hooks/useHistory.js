@@ -8,7 +8,7 @@ export function useHistory(from, to, period) {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (!from || !to || from === to) { setRows([]); setError(from === to ? 'Escolha moedas diferentes para ver o histórico.' : ''); return }
+    if (!from || !to || from === to) { setRows([]); setError(from === to ? 'errors.sameCurrency' : ''); return }
     let active = true
     setLoading(true); setError('')
     getHistory(from, to, getPeriodRange(period), period.group)

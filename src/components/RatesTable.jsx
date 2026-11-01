@@ -3,12 +3,14 @@ import styles from './RatesTable.module.css'
 import Filters from './Filters'
 import { filterRows, sortRows, validateFilters } from '../utils/rates'
 import { buildCsvFilename, downloadCsv } from '../utils/csv'
-import { formatDateBR } from '../utils/dates'
+import { formatDate } from '../utils/dates'
+import { useLanguage } from '../i18n/LanguageContext'
 
 const EMPTY = { startDate: '', endDate: '', minRate: '', maxRate: '' }
 const MAX_VISIBLE = 200
 
 export default function RatesTable({ rows, from, to }) {
+  const { t, locale } = useLanguage()
   const [filters, setFilters] = useState(EMPTY)
   const [sort, setSort] = useState({ field: 'date', direction: 'desc' })
   const [message, setMessage] = useState('')
@@ -25,7 +27,7 @@ export default function RatesTable({ rows, from, to }) {
   const ariaSort = (field) => (sort.field === field ? (sort.direction === 'asc' ? 'ascending' : 'descending') : 'none')
 
   const exportCsv = () => {
-    try { downloadCsv(result, buildCsvFilename(from, to)); setMessage('') }
+    try { downloadCsv(result, buildCsvFilename(from, to), ['csv.date', 'csv.base', 'csv.quote', 'csv.rate'].map((k) => t(k))); setMessage('') }
     catch (e) { setMessage(e.message) }
   }
 
@@ -33,34 +35,34 @@ export default function RatesTable({ rows, from, to }) {
     <div className={styles.wrap}>
       <Filters filters={filters} onChange={setFilters} onClear={() => setFilters(EMPTY)} error={filterError} />
       <div className={styles.bar}>
-        <p aria-live="polite"><strong>{result.length}</strong> de {rows.length} registros</p>
-        <button type="button" className={styles.export} onClick={exportCsv} disabled={result.length === 0}>Exportar CSV</button>
+        <p aria-live="polite">{t('table.count', { count: result.length, total: rows.length })}</p>
+        <button type="button" className={styles.export} onClick={exportCsv} disabled={result.length === 0}>{t('table.export')}</button>
       </div>
-      {message && <p className={styles.error} role="alert">{message}</p>}
+      {message && <p className={styles.error} role="alert">{t(message)}</p>}
       {result.length === 0 ? (
-        <p className={styles.empty}>Nenhum registro com esses filtros. Ajuste ou limpe os filtros.</p>
+        <p className={styles.empty}>{t('table.empty')}</p>
       ) : (
         <div className={styles.scroll}>
           <table>
             <thead>
               <tr>
-                <th aria-sort={ariaSort('date')}><button type="button" onClick={() => toggleSort('date')}>Data{arrow('date')}</button></th>
-                <th>Origem</th>
-                <th>Destino</th>
-                <th aria-sort={ariaSort('rate')}><button type="button" onClick={() => toggleSort('rate')}>Cotação{arrow('rate')}</button></th>
+                <th aria-sort={ariaSort('date')}><button type="button" onClick={() => toggleSort('date')}>{t('table.date')}{arrow('date')}</button></th>
+                <th>{t('table.origin')}</th>
+                <th>{t('table.destination')}</th>
+                <th aria-sort={ariaSort('rate')}><button type="button" onClick={() => toggleSort('rate')}>{t('table.rate')}{arrow('rate')}</button></th>
               </tr>
             </thead>
             <tbody>
               {result.slice(0, MAX_VISIBLE).map((r) => (
                 <tr key={r.date}>
-                  <td>{formatDateBR(r.date)}</td><td>{r.base}</td><td>{r.quote}</td>
-                  <td>{r.rate.toLocaleString('pt-BR', { maximumFractionDigits: 6 })}</td>
+                  <td>{formatDate(r.date, locale)}</td><td>{r.base}</td><td>{r.quote}</td>
+                  <td>{r.rate.toLocaleString(locale, { maximumFractionDigits: 6 })}</td>
                 </tr>
               ))}
             </tbody>
           </table>
           {result.length > MAX_VISIBLE && (
-            <p className={styles.empty}>Exibindo os primeiros {MAX_VISIBLE} registros. O CSV contém todos os {result.length}.</p>
+            <p className={styles.empty}>{t('table.truncated', { max: MAX_VISIBLE, count: result.length })}</p>
           )}
         </div>
       )}

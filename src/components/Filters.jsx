@@ -1,16 +1,18 @@
 import styles from './Filters.module.css'
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function Filters({ filters, onChange, onClear, error }) {
+  const { t } = useLanguage()
   const set = (key) => (e) => onChange({ ...filters, [key]: e.target.value })
   return (
     <fieldset className={styles.box}>
-      <legend>Filtros</legend>
-      <label>De<input type="date" value={filters.startDate} onChange={set('startDate')} /></label>
-      <label>Até<input type="date" value={filters.endDate} onChange={set('endDate')} /></label>
-      <label>Cotação mínima<input type="number" step="any" value={filters.minRate} onChange={set('minRate')} /></label>
-      <label>Cotação máxima<input type="number" step="any" value={filters.maxRate} onChange={set('maxRate')} /></label>
-      <button type="button" onClick={onClear}>Limpar filtros</button>
-      {error && <p className={styles.error} role="alert">{error}</p>}
+      <legend>{t('filters.title')}</legend>
+      <label>{t('filters.from')}<input type="date" value={filters.startDate} onChange={set('startDate')} /></label>
+      <label>{t('filters.to')}<input type="date" value={filters.endDate} onChange={set('endDate')} /></label>
+      <label>{t('filters.min')}<input type="number" step="any" value={filters.minRate} onChange={set('minRate')} /></label>
+      <label>{t('filters.max')}<input type="number" step="any" value={filters.maxRate} onChange={set('maxRate')} /></label>
+      <button type="button" onClick={onClear}>{t('filters.clear')}</button>
+      {error && <p className={styles.error} role="alert">{t(error)}</p>}
     </fieldset>
   )
 }

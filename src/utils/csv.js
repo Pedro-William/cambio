@@ -18,7 +18,7 @@ export function buildCsvFilename(base, quote, today = new Date()) {
 
 /** Gera e baixa o arquivo no navegador. Lança erro se não houver registros. */
 export function downloadCsv(rows, filename, headers) {
-  if (!rows.length) throw new Error('Não há registros para exportar.')
+  if (!rows.length) throw new Error('errors.emptyExport')
   const blob = new Blob(['\uFEFF' + buildCsv(rows, headers)], { type: 'text/csv;charset=utf-8;' })
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
