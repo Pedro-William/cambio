@@ -6,12 +6,15 @@ import { useCurrencies } from './hooks/useCurrencies'
 import { DEFAULT_FROM, DEFAULT_TO } from './constants/periods'
 import LanguageSwitch from './components/LanguageSwitch'
 import { useLanguage } from './i18n/LanguageContext'
+import ThemeToggle from './components/ThemeToggle'
+import { useTheme } from './hooks/useTheme'
 
 export default function App() {
   const [from, setFrom] = useState(DEFAULT_FROM)
   const [to, setTo] = useState(DEFAULT_TO)
   const { currencies, loading, error } = useCurrencies()
   const { t } = useLanguage()
+  const { theme, toggleTheme } = useTheme()
 
   const swap = () => { setFrom(to); setTo(from) }
 
@@ -22,6 +25,7 @@ export default function App() {
           <h1>Câmbio</h1>
           <div className={styles.controls}>
             <LanguageSwitch />
+            <ThemeToggle theme={theme} onToggle={toggleTheme} />
           </div>
         </div>
         <p>{t('app.subtitle')}</p>
