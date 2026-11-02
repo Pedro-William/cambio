@@ -1,24 +1,20 @@
 {
   "info": {
-    "name": "Frankfurter v2 - Câmbio",
+    "_postman_id": "6dcd82b0-f9b4-4862-bb28-90837dabc377",
+    "name": "Frankfurter v2 - Cambio",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "https://api.frankfurter.dev/v2"
-    }
-  ],
   "item": [
     {
-      "name": "Moedas disponíveis",
+      "name": "1 - Moedas disponiveis",
       "event": [
         {
           "listen": "test",
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('status 200', () => pm.response.to.have.status(200));"
+              "pm.test('status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('corpo nao vazio', function () { pm.expect(pm.response.json()).to.not.be.empty; });"
             ]
           }
         }
@@ -34,19 +30,21 @@
           "path": [
             "currencies"
           ]
-        }
-      }
+        },
+        "description": ""
+      },
+      "response": []
     },
     {
-      "name": "EUR → USD",
+      "name": "2 - EUR para USD",
       "event": [
         {
           "listen": "test",
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('status 200', () => pm.response.to.have.status(200));",
-              "pm.test('tem taxa numérica', () => { const j = pm.response.json(); pm.expect(j.rate).to.be.a('number'); });"
+              "pm.test('status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('tem taxa numerica', function () { var j = pm.response.json(); pm.expect(j.rate).to.be.a('number'); });"
             ]
           }
         }
@@ -64,19 +62,21 @@
             "EUR",
             "USD"
           ]
-        }
-      }
+        },
+        "description": ""
+      },
+      "response": []
     },
     {
-      "name": "Histórico maio/2024",
+      "name": "3 - Historico maio 2024",
       "event": [
         {
           "listen": "test",
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('status 200', () => pm.response.to.have.status(200));",
-              "pm.test('retorna dados', () => pm.expect(pm.response.json()).to.not.be.empty);"
+              "pm.test('status 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('retorna dados', function () { pm.expect(pm.response.json()).to.not.be.empty; });"
             ]
           }
         }
@@ -91,19 +91,39 @@
           ],
           "path": [
             "rates"
+          ],
+          "query": [
+            {
+              "key": "from",
+              "value": "2024-05-01"
+            },
+            {
+              "key": "to",
+              "value": "2024-05-31"
+            },
+            {
+              "key": "base",
+              "value": "EUR"
+            },
+            {
+              "key": "quotes",
+              "value": "USD"
+            }
           ]
-        }
-      }
+        },
+        "description": ""
+      },
+      "response": []
     },
     {
-      "name": "Moeda inválida (erro esperado)",
+      "name": "4 - Moeda invalida (erro esperado)",
       "event": [
         {
           "listen": "test",
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('status 4xx', () => pm.expect(pm.response.code).to.be.within(400,499));"
+              "pm.test('status 4xx', function () { pm.expect(pm.response.code).to.be.within(400, 499); });"
             ]
           }
         }
@@ -121,18 +141,67 @@
             "EUR",
             "XXX"
           ]
-        }
-      }
+        },
+        "description": ""
+      },
+      "response": []
     },
     {
-      "name": "Histórico agrupado por semana",
+      "name": "5 - Intervalo invertido (from maior que to)",
       "event": [
         {
           "listen": "test",
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('status 200', () => pm.response.to.have.status(200));"
+              "pm.test('responde sem erro de servidor', function () { pm.expect(pm.response.code).to.be.below(500); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/rates?from=2024-05-31&to=2024-05-01&base=EUR&quotes=USD",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "rates"
+          ],
+          "query": [
+            {
+              "key": "from",
+              "value": "2024-05-31"
+            },
+            {
+              "key": "to",
+              "value": "2024-05-01"
+            },
+            {
+              "key": "base",
+              "value": "EUR"
+            },
+            {
+              "key": "quotes",
+              "value": "USD"
+            }
+          ]
+        },
+        "description": "Registre no API_TESTS.md o que a API devolve."
+      },
+      "response": []
+    },
+    {
+      "name": "6 - Historico agrupado por semana",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde sem erro de servidor', function () { pm.expect(pm.response.code).to.be.below(500); });"
             ]
           }
         }
@@ -147,9 +216,40 @@
           ],
           "path": [
             "rates"
+          ],
+          "query": [
+            {
+              "key": "from",
+              "value": "2020-01-01"
+            },
+            {
+              "key": "to",
+              "value": "2024-12-31"
+            },
+            {
+              "key": "base",
+              "value": "EUR"
+            },
+            {
+              "key": "quotes",
+              "value": "USD"
+            },
+            {
+              "key": "group",
+              "value": "week"
+            }
           ]
-        }
-      }
+        },
+        "description": "Confirme se o parametro group e aceito."
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.frankfurter.dev/v2",
+      "type": "string"
     }
   ]
 }

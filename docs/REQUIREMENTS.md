@@ -10,7 +10,7 @@ Usuários gerais que querem consultar cotações; estudantes que analisam série
 Oferecer conversão de moedas e análise histórica (gráfico, tabela, CSV) em uma SPA em React.
 
 ## Escopo
-Dentro: conversor, histórico/gráfico, tabela com filtros e ordenação, exportação CSV.
+Dentro: conversor, histórico/gráfico, tabela com filtros e ordenação, exportação CSV, idioma PT/EN e tema claro/escuro.
 Fora: autenticação, cadastro, back-end, banco de dados, pagamentos, compra/venda real.
 
 ## Requisitos funcionais
@@ -28,12 +28,15 @@ Fora: autenticação, cadastro, back-end, banco de dados, pagamentos, compra/ven
 | RF10 | Ordenar por data e por cotação |
 | RF11 | Exibir quantidade de registros encontrados |
 | RF12 | Exportar CSV só do resultado filtrado, com cabeçalho, nome identificável; bloquear se vazio |
+| RF13 | Alternar a interface entre português e inglês (textos, datas, números e cabeçalhos do CSV) |
+| RF14 | Alternar entre tema claro e escuro, lembrando a escolha do usuário |
 
 ## Requisitos não funcionais
-- RNF01 Interface responsiva (mobile e desktop) e acessível (labels, foco visível, `aria-live`).
+- RNF01 Interface responsiva (mobile e desktop) e acessível (labels, foco visível, `aria-live`, `aria-pressed`).
 - RNF02 Estados de carregamento e erro para toda chamada de API.
 - RNF03 Código componentizado, lógica em funções puras testáveis.
 - RNF04 Sem dependência de back-end próprio.
+- RNF05 Preferências de idioma e tema persistem no navegador (`localStorage`) e têm valor padrão sensato na primeira visita.
 
 ## Regras de negócio
 - RN01 Valor convertido = valor × taxa obtida da API (cálculo feito na aplicação).
@@ -42,6 +45,8 @@ Fora: autenticação, cadastro, back-end, banco de dados, pagamentos, compra/ven
 - RN04 Filtros combinam-se com E lógico.
 - RN05 CSV contém exatamente os registros exibidos após filtros, na ordem escolhida.
 - RN06 Moedas iguais resultam em taxa 1 e sem histórico.
+- RN07 Datas e números seguem o idioma escolhido (pt-BR ou en-US); os códigos de moeda (ISO 4217) não são traduzidos.
+- RN08 Na primeira visita, o idioma segue o do navegador (português se for `pt`, senão inglês) e o tema segue a preferência do sistema.
 
 ## Critérios de aceite
 - CA01 Converter 1 EUR → USD mostra valor, taxa e data.
@@ -50,3 +55,5 @@ Fora: autenticação, cadastro, back-end, banco de dados, pagamentos, compra/ven
 - CA04 Aplicar filtros altera tabela e contador; limpar restaura todos os registros.
 - CA05 Exportar com filtros gera CSV com o mesmo número de linhas do contador + cabeçalho.
 - CA06 Com 0 registros, o botão de exportação fica desabilitado.
+- CA07 Trocar PT/EN altera todos os textos visíveis, o formato de datas e números e os cabeçalhos do CSV exportado.
+- CA08 Alternar o tema muda as cores da interface e do gráfico; recarregar a página mantém o tema e o idioma escolhidos.
